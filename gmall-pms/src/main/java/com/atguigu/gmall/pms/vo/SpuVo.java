@@ -8,10 +8,10 @@ import java.util.List;
 @Data
 public class SpuVo extends SpuEntity {
 
-    private List<?> spuImages;
+    private List<String> spuImages;
 
-    private List<?> baseAttrs;
+    private List<SpuAttrValueVo> baseAttrs;
 
-    private List<?> skus;
+    private List<SkuVo> skus;
 
 }

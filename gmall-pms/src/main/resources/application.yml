@@ -1,6 +1,5 @@
 server:
   port: 18081
-
 feign:
   sentinel:
     enabled: true
@@ -13,3 +12,8 @@ mybatis-plus:
 logging:
   level:
     com.atguigu.gmall: debug
+spring:
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: gmall_tx_group

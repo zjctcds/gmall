@@ -10,6 +10,7 @@ import com.atguigu.gmall.pms.vo.SpuAttrValueVo;
 import com.atguigu.gmall.pms.vo.SpuVo;
 import com.atguigu.gmall.sms.vo.SkuSaleVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
 
 
     @Override
-    @Transactional
+//    @Transactional
+    @GlobalTransactional
     public void bigSave(SpuVo spu) {
         //1、保存spu相关信息
         //1.1、保存pms_spu
@@ -102,6 +104,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
         //2、保存sku相关信息
         this.saveSkus(spu, spuId);
 
+//        int i = 1/0;
     }
 
     private void saveSkus(SpuVo spu, Long spuId) {

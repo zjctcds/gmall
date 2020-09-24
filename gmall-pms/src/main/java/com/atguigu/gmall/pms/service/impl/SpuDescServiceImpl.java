@@ -32,7 +32,8 @@ public class SpuDescServiceImpl extends ServiceImpl<SpuDescMapper, SpuDescEntity
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void saveSpuDesc(SpuVo spu, Long spuId) {
         if (!CollectionUtils.isEmpty(spu.getSpuImages())) {
             SpuDescEntity spuDescEntity = new SpuDescEntity();

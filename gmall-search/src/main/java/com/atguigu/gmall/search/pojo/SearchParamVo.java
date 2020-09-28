@@ -27,14 +27,14 @@ public class SearchParamVo {
     private Integer sort;
 
     //价格区间
-    private double priceFrom;
-    private double priceTo;
+    private Double priceFrom;
+    private Double priceTo;
 
     //是否有货
-    private boolean store;
+    private Boolean store;
 
     //分页数据
-    private Long total;
-    private Integer pageNum;
+//    private Long total;
+    private Integer pageNum = 1;
     private final Integer pageSize = 20;
 }

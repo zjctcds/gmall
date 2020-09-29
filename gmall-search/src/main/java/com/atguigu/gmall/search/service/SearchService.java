@@ -237,6 +237,7 @@ public class SearchService {
 
         //2、构建排序条件: 1-价格升序 2-价格降序 3-新品降序 4-销量降序
         Integer sort = paramVo.getSort();
+        if (sort != null){
         switch (sort){
             case 1: sourceBuilder.sort("price", SortOrder.ASC); break;
             case 2: sourceBuilder.sort("price", SortOrder.DESC); break;
@@ -245,6 +246,7 @@ public class SearchService {
             default:
                 sourceBuilder.sort("_score",SortOrder.DESC);
                 break;
+        }
         }
 
         //3、构建分页条件
@@ -256,7 +258,7 @@ public class SearchService {
         //4、构建高亮
         sourceBuilder.highlighter(new HighlightBuilder()
                 .field("title")
-                .preTags("<font sytle='color:red;'>")
+                .preTags("<font style='color:red;'>")
                 .postTags("</font>")
         );
 

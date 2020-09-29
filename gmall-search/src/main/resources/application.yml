@@ -22,6 +22,9 @@ spring:
       uris: http://192.168.181.200:9200
   jackson:
     default-property-inclusion: non_null
+#生产环境下应设置为true
+  thymeleaf:
+    cache: false
 feign:
   sentinel:
     enabled: true

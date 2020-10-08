@@ -17,3 +17,11 @@ spring:
     alibaba:
       seata:
         tx-service-group: gmall_tx_group
+
+  rabbitmq:
+    host: 192.168.181.200
+    virtual-host: /root
+    username: root
+    password: root
+    publisher-confirm-type: correlated
+    publisher-returns: true

@@ -25,6 +25,18 @@ spring:
 #生产环境下应设置为true
   thymeleaf:
     cache: false
+
+  rabbitmq:
+    host: 192.168.181.200
+    virtual-host: /root
+    username: root
+    password: root
+    listener:
+      simple:
+        prefetch: 1
+        acknowledge-mode: manual
+        concurrency: 3
+
 feign:
   sentinel:
     enabled: true

@@ -69,4 +69,11 @@ public class CartController {
         this.cartService.updateNum(cart);
         return ResponseVo.ok();
     }
+
+    @PostMapping("deleteCart")
+    @ResponseBody
+    public ResponseVo deleteCartBySkuId(@RequestParam("skuId")Long skuId){
+        this.cartService.deleteCartBySkuId(skuId);
+        return ResponseVo.ok();
+    }
 }

@@ -26,6 +26,8 @@ spring:
     virtual-host: /root
     username: root
     password: root
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
 feign:
   sentinel:
     enabled: true

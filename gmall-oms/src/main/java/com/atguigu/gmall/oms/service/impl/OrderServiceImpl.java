@@ -9,9 +9,9 @@ import com.atguigu.gmall.oms.service.OrderItemService;
 import com.atguigu.gmall.oms.vo.OrderItemVo;
 import com.atguigu.gmall.oms.vo.OrderSubmitVo;
 import com.atguigu.gmall.pms.entity.*;
-import com.atguigu.gmall.ums.api.GmallUmsApi;
 import com.atguigu.gmall.ums.entity.UserAddressEntity;
 import com.atguigu.gmall.ums.entity.UserEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,25 +23,29 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 import com.atguigu.gmall.oms.mapper.OrderMapper;
 import com.atguigu.gmall.oms.entity.OrderEntity;
 import com.atguigu.gmall.oms.service.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
 @Service("orderService")
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> implements OrderService {
 
-
     @Autowired
     private GmallUmsClient umsClient;
+
+    @Autowired
+    private GmallPmsClient pmsClient;
 
     @Autowired
     private OrderItemService itemService;
 
     @Autowired
-    private GmallPmsClient pmsClient;
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public PageResultVo queryPage(PageParamVo paramVo) {
@@ -53,10 +57,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         return new PageResultVo(page);
     }
 
+    @Transactional
     @Override
     public OrderEntity saveOrder(OrderSubmitVo submitVo, Long userId) {
 
-        //1、保存订单表
+        // 1.保存订单表
         OrderEntity orderEntity = new OrderEntity();
         // 查询用户信息
         ResponseVo<UserEntity> userEntityResponseVo = this.umsClient.queryUserById(userId);
@@ -90,9 +95,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
         this.save(orderEntity);
         Long id = orderEntity.getId();
-
-
-
 
         // 2.保存订单详情表
         List<OrderItemVo> items = submitVo.getItems();
@@ -143,6 +145,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
                 return itemEntity;
             }).collect(Collectors.toList()));
         }
+
+        // 发送消息给mq
+        this.rabbitTemplate.convertAndSend("ORDER_EXCHANGE", "order.ttl", submitVo.getOrderToken());
 
         return orderEntity;
     }

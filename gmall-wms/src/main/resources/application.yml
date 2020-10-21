@@ -1,17 +1,5 @@
 server:
   port: 18083
-feign:
-  sentinel:
-    enabled: true
-mybatis-plus:
-  mapper-locations: classpath:mapper/wms/*.xml
-  type-aliases-package: com.atguigu.gmall.wms.entity
-  global-config:
-    db-config:
-      id-type: auto
-logging:
-  level:
-    com.atguigu.gmall: debug
 spring:
   cloud:
     nacos:
@@ -36,3 +24,27 @@ spring:
     password: root
   redis:
     host: 192.168.181.200
+  rabbitmq:
+    host: 192.168.181.200
+    virtual-host: /root
+    username: root
+    password: root
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 3
+        acknowledge-mode: manual
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+feign:
+  sentinel:
+    enabled: true
+mybatis-plus:
+  mapper-locations: classpath:mapper/wms/*.xml
+  type-aliases-package: com.atguigu.gmall.wms.entity
+  global-config:
+    db-config:
+      id-type: auto
+logging:
+  level:
+    com.atguigu.gmall: debug

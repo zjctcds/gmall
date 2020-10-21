@@ -19,11 +19,23 @@ spring:
       probability: 1
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/guli_oms
+    url: jdbc:mysql://localhost/guli_oms
     username: root
     password: root
   redis:
     host: 192.168.181.200
+  rabbitmq:
+    host: 192.168.181.200
+    virtual-host: /root
+    username: root
+    password: root
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 3
+        acknowledge-mode: manual
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
 feign:
   sentinel:
     enabled: true
@@ -33,3 +45,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+logging:
+  level:
+    com.atguigu.gmall: debug

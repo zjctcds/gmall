@@ -22,7 +22,7 @@ public class CartAsyncService {
     @Async
     public void insertCart(String userId, Cart cart){
 
-        int i = 1/0;
+//        int i = 1/0;
 
         this.cartMapper.insert(cart);
     }
